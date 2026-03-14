@@ -1,0 +1,15 @@
+[project]
+name = "whisper-mcp"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]",
+    "openai-whisper",
+]
+
+[project.scripts]
+whisper-mcp = "server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
