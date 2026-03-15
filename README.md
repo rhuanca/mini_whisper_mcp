@@ -28,22 +28,11 @@ uv run python -m basic_whisper_mcp_server --transport stdio
 uv run python -m basic_whisper_mcp_server --transport streamable-http --host 0.0.0.0 --port 8000
 ```
 
-### Help
-
-```bash
-uv run python -m basic_whisper_mcp_server --help
-```
-
 ## Docker
 
 ```bash
 docker build -t basic-whisper-mcp-server .
-
-# HTTP mode (default in Docker)
-docker run -p 8000:8000 -v /path/to/audio:/audio basic-whisper-mcp-server
-
-# Override transport or port
-docker run -p 9000:9000 -e MCP_PORT=9000 -v /path/to/audio:/audio basic-whisper-mcp-server
+docker run -p 8000:8000 basic-whisper-mcp-server
 ```
 
 ## Configuration
@@ -53,7 +42,44 @@ docker run -p 9000:9000 -e MCP_PORT=9000 -v /path/to/audio:/audio basic-whisper-
 | `MCP_TRANSPORT` | `streamable-http` | `stdio` or `streamable-http` (Docker default) |
 | `MCP_HOST` | `0.0.0.0` | Host for HTTP mode |
 | `MCP_PORT` | `8000` | Port for HTTP mode |
-| `WHISPER_MODEL` | `base` | Default Whisper model |
+
+## MCP Tools
+
+### `health_check`
+Basic server health check. Returns `"ok"`.
+
+### `transcribe`
+
+| Param | Type | Default | Description |
+|---|---|---|---|
+| `audio_b64` | string | — | Base64-encoded audio file content |
+| `model` | string | `base` | `tiny`, `base`, `small`, `medium`, `large` |
+| `suffix` | string | `.mp3` | File extension hint: `.mp3`, `.wav`, `.m4a`, etc. |
+
+Models are cached in memory after first load. Larger models are more accurate but slower.
+
+### Usage example (calling agent)
+
+```python
+import base64
+
+with open("audio.mp3", "rb") as f:
+    audio_b64 = base64.b64encode(f.read()).decode()
+
+result = await mcp_client.call_tool("transcribe", {
+    "audio_b64": audio_b64,
+    "model": "base",
+    "suffix": ".mp3",
+})
+```
+
+## Testing with MCP Inspector
+
+```bash
+npx @modelcontextprotocol/inspector uv run python -m basic_whisper_mcp_server --transport stdio
+```
+
+For HTTP, start the server first then connect Inspector to `http://localhost:8000/mcp`.
 
 ## Claude Desktop config (stdio)
 
@@ -67,52 +93,6 @@ docker run -p 9000:9000 -e MCP_PORT=9000 -v /path/to/audio:/audio basic-whisper-
   }
 }
 ```
-
-## Tools
-
-### `health_check`
-Basic server health check. Returns `"ok"`.
-
-### `transcribe`
-
-| Param | Type | Default | Description |
-|---|---|---|---|
-| `audio_path` | string | — | Absolute path to audio file (mp3, wav, m4a, …) |
-| `model` | string | `base` | `tiny`, `base`, `small`, `medium`, `large` |
-
-Models are cached in memory after first load. Larger models are more accurate but slower.
-
-## Testing with MCP Inspector
-
-[MCP Inspector](https://github.com/modelcontextprotocol/inspector) is a visual tool to explore and test MCP servers interactively.
-
-### stdio
-
-```bash
-npx @modelcontextprotocol/inspector uv run python -m basic_whisper_mcp_server --transport stdio
-```
-
-### HTTP
-
-Start the server first:
-
-```bash
-uv run python -m basic_whisper_mcp_server --transport streamable-http --port 8000
-```
-
-Then open the inspector and connect to:
-
-```
-http://localhost:8000/mcp
-```
-
-Or launch it directly:
-
-```bash
-npx @modelcontextprotocol/inspector
-```
-
-In the UI, set transport to **Streamable HTTP** and URL to `http://localhost:8000/mcp`.
 
 ## Project structure
 
