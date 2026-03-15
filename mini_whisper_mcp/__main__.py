@@ -15,10 +15,11 @@ def main() -> None:
     )
     parser.add_argument("--host", default="127.0.0.1", help="HTTP host")
     parser.add_argument("--port", type=int, default=8000, help="HTTP port")
+    parser.add_argument("--stateless", action="store_true", help="Run in stateless HTTP mode (no session required)")
     args = parser.parse_args()
 
     if args.transport == "streamable-http":
-        mcp.run(transport="streamable-http", host=args.host, port=args.port)
+        mcp.run(transport="streamable-http", host=args.host, port=args.port, stateless_http=args.stateless)
     else:
         mcp.run(transport="stdio")
 
