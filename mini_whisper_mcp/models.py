@@ -6,6 +6,11 @@ logger = logging.getLogger(__name__)
 _cache: dict[str, whisper.Whisper] = {}
 
 
+def loaded_models() -> list[str]:
+    """Return the names of currently loaded (cached) models."""
+    return list(_cache.keys())
+
+
 def get_model(name: str) -> whisper.Whisper:
     """Load and cache a Whisper model, falling back to CPU on CUDA errors."""
     if name not in _cache:
