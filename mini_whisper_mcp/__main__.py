@@ -1,12 +1,12 @@
-"""CLI entrypoint for basic-whisper-mcp-server."""
+"""CLI entrypoint for mini-whisper-mcp."""
 
 import argparse
 
-from basic_whisper_mcp_server.server import mcp
+from mini_whisper_mcp.server import mcp
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run basic-whisper-mcp-server")
+    parser = argparse.ArgumentParser(description="Run mini-whisper-mcp")
     parser.add_argument(
         "--transport",
         choices=["stdio", "streamable-http"],

@@ -8,7 +8,7 @@ WORKDIR /app
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 COPY pyproject.toml README.md ./
-COPY basic_whisper_mcp_server ./basic_whisper_mcp_server
+COPY mini_whisper_mcp ./mini_whisper_mcp
 
 RUN uv pip install --system --no-cache -e .
 
@@ -18,4 +18,4 @@ ENV MCP_TRANSPORT="streamable-http"
 ENV MCP_HOST="0.0.0.0"
 ENV MCP_PORT="8000"
 
-CMD ["sh", "-c", "python -m basic_whisper_mcp_server --transport ${MCP_TRANSPORT} --host ${MCP_HOST} --port ${MCP_PORT}"]
+CMD ["sh", "-c", "python -m mini_whisper_mcp --transport ${MCP_TRANSPORT} --host ${MCP_HOST} --port ${MCP_PORT}"]

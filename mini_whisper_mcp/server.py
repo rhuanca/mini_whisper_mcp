@@ -4,7 +4,7 @@ import tempfile
 
 from fastmcp import FastMCP
 
-from basic_whisper_mcp_server.models import get_model
+from mini_whisper_mcp.models import get_model
 
 logging.basicConfig(
     level=logging.INFO,
@@ -12,7 +12,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-mcp = FastMCP("basic-whisper-mcp-server")
+mcp = FastMCP("mini-whisper-mcp")
 
 
 @mcp.tool()

@@ -1,5 +1,5 @@
 [project]
-name = "basic-whisper-mcp-server"
+name = "mini-whisper-mcp"
 version = "0.1.0"
 description = "MCP server for audio transcription using OpenAI Whisper"
 readme = "README.md"
@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [project.scripts]
-basic-whisper-mcp-server = "basic_whisper_mcp_server.__main__:main"
+mini-whisper-mcp = "mini_whisper_mcp.__main__:main"
 
 [build-system]
 requires = ["hatchling"]

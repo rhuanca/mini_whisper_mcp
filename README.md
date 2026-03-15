@@ -1,4 +1,4 @@
-# basic-whisper-mcp-server
+# mini-whisper-mcp
 
 MCP server for audio transcription using [OpenAI Whisper](https://github.com/openai/whisper).
 
@@ -19,20 +19,20 @@ uv sync
 ### stdio (for local agents)
 
 ```bash
-uv run python -m basic_whisper_mcp_server --transport stdio
+uv run python -m mini_whisper_mcp --transport stdio
 ```
 
 ### HTTP
 
 ```bash
-uv run python -m basic_whisper_mcp_server --transport streamable-http --host 0.0.0.0 --port 8000
+uv run python -m mini_whisper_mcp --transport streamable-http --host 0.0.0.0 --port 8000
 ```
 
 ## Docker
 
 ```bash
-docker build -t basic-whisper-mcp-server .
-docker run -p 8000:8000 basic-whisper-mcp-server
+docker build -t mini-whisper-mcp .
+docker run -p 8000:8000 mini-whisper-mcp
 ```
 
 ## Configuration
@@ -76,7 +76,7 @@ result = await mcp_client.call_tool("transcribe", {
 ## Testing with MCP Inspector
 
 ```bash
-npx @modelcontextprotocol/inspector uv run python -m basic_whisper_mcp_server --transport stdio
+npx @modelcontextprotocol/inspector uv run python -m mini_whisper_mcp --transport stdio
 ```
 
 For HTTP, start the server first then connect Inspector to `http://localhost:8000/mcp`.
@@ -88,7 +88,7 @@ For HTTP, start the server first then connect Inspector to `http://localhost:800
   "mcpServers": {
     "whisper": {
       "command": "uv",
-      "args": ["--directory", "/path/to/basic-whisper-mcp-server", "run", "python", "-m", "basic_whisper_mcp_server", "--transport", "stdio"]
+      "args": ["--directory", "/path/to/mini-whisper-mcp", "run", "python", "-m", "mini_whisper_mcp", "--transport", "stdio"]
     }
   }
 }
@@ -97,7 +97,7 @@ For HTTP, start the server first then connect Inspector to `http://localhost:800
 ## Project structure
 
 ```
-basic_whisper_mcp_server/
+mini_whisper_mcp/
 ├── __main__.py   # CLI entrypoint (--transport, --host, --port)
 ├── server.py     # MCP tools
 └── models.py     # Whisper model loader with CUDA fallback
