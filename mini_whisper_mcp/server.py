@@ -13,7 +13,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-mcp = FastMCP("mini-whisper-mcp")
+import os
+
+STATELESS = os.getenv("MCP_STATELESS", "false").lower() == "true"
+mcp = FastMCP("mini-whisper-mcp", stateless_http=STATELESS)
 
 # Model metadata: (parameters, relative speed, multilingual)
 _MODEL_INFO: dict[str, dict] = {

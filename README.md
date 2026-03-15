@@ -73,6 +73,7 @@ The agent connects to the MCP server at `http://mini-whisper-mcp:8000/mcp` using
 | `MCP_TRANSPORT` | `streamable-http` | `stdio` or `streamable-http` (Docker default) |
 | `MCP_HOST` | `0.0.0.0` | Host for HTTP mode |
 | `MCP_PORT` | `8000` | Port for HTTP mode |
+| `MCP_STATELESS` | `false` | Set to `true` for clients that can't maintain session state |
 
 ## MCP Tools
 
