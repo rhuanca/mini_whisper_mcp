@@ -19,7 +19,10 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.transport == "streamable-http":
-        mcp.run(transport="streamable-http", host=args.host, port=args.port, stateless_http=args.stateless)
+        kwargs = {"host": args.host, "port": args.port}
+        if args.stateless:
+            kwargs["stateless_http"] = True
+        mcp.run(transport="streamable-http", **kwargs)
     else:
         mcp.run(transport="stdio")
 
