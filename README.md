@@ -35,6 +35,37 @@ docker build -t mini-whisper-mcp .
 docker run -p 8000:8000 mini-whisper-mcp
 ```
 
+### Docker Compose
+
+Create a `docker-compose.yml` alongside your calling agent:
+
+```yaml
+services:
+  mini-whisper-mcp:
+    image: mini-whisper-mcp
+    build: ./mini-whisper-mcp   # path to this repo
+    ports:
+      - "8000:8000"
+    environment:
+      MCP_TRANSPORT: streamable-http
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: "8000"
+    restart: unless-stopped
+
+  your-agent:
+    build: ./your-agent
+    environment:
+      WHISPER_MCP_URL: http://mini-whisper-mcp:8000/mcp
+    depends_on:
+      - mini-whisper-mcp
+```
+
+```bash
+docker compose up
+```
+
+The agent connects to the MCP server at `http://mini-whisper-mcp:8000/mcp` using the service name as hostname.
+
 ## Configuration
 
 | Env var | Default | Description |
